@@ -31,7 +31,7 @@ Move into the terraform directory to deploy the express app together with the ku
   cd infra_tf
   terraform init
   terraform plan
-  terraform apply
+  terraform apply --auto-approve
 
 ```
 
