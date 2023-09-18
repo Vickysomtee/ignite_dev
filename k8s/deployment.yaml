@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ignite-dpl
+  labels:
+    app: ignite-dev
+spec:
+  selector:
+    matchLabels:
+      app: ignite-dev
+  template:
+    metadata:
+      labels:
+        app: ignite-dev
+    spec:
+      containers:
+      - name: ignite-dev
+        image: vickysomtee/ignite_dev:latest
+        env:
+        - name: NODE_ENV
+          value: "development"
+        ports:
+        - containerPort: 3000
+        imagePullPolicy: Always
+      serviceAccountName: default
