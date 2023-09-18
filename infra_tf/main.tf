@@ -3,10 +3,13 @@ resource "kubectl_manifest" "test" {
   yaml_body = each.value
 }
 
-resource "kubernetes_namespace" "monitoring" {
-  metadata {
-    name = var.namespace
-  }
+resource "kubectl_manifest" "namespace" {
+  yaml_body = <<YAML
+  apiVersion: v1
+  kind: Namespace
+  metadata:
+    name: prometheus
+  YAML
 }
 
 resource "helm_release" "kube-prometheus" {
@@ -14,5 +17,5 @@ resource "helm_release" "kube-prometheus" {
   namespace  = var.namespace
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
-  depends_on = [ kubernetes_namespace.monitoring ]
+  depends_on = [kubectl_manifest.namespace]
 }
